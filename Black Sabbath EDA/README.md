@@ -1,4 +1,4 @@
-# 1. API Request
+# 1. Python API Request
 First, the API call needs to be made so that we get the right information. The program sends a get request for artist name, track name, track popularity index, track id, and audio features.
 
 ```Python
@@ -126,7 +126,7 @@ df_spotify_tracks.head(10)
 ```
 ![SQL_1](https://github.com/zefrios/SQL/assets/83305620/991c1711-6c82-426f-8a31-a09aeccf06b9)
 
-Once the data is correctly extracted and placed into a dataframe, it is transferred to a SQL table for further analysis.
+Once the data is correctly extracted and placed into a dataframe, it is transferred to a SQL table for further analysis:
 
 ```Python
 engine = create_engine('sqlite:///spotify_track_info.db')
@@ -134,7 +134,7 @@ engine = create_engine('sqlite:///spotify_track_info.db')
 df_spotify_tracks.to_sql(name='spotify_track_info', con=engine, if_exists='replace', index=False)
 print("Data stored in the 'spotify_track_info' table.")
 ```
-With this the Python part of the project is concluded and we can proceed to querying the data from SQL to answer some business questions.
+With this, the Python part of the project is concluded and we can proceed to querying the data from SQL to answer some business questions.
 ***
 
 # 2. SQL Queries
