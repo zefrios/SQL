@@ -82,7 +82,7 @@ def get_tracks_audio_feats(access_token, track_id):
     }
 ```
 
-Then, we create a main() function that calls our previously stated fucntions that sets Black Sabbath as the artist name. The markets (countries) we want to explore are specified in the request.
+We unify the previous snippets through a main() function which sets *Black Sabbath* as the artist name and creates a list with the markets (countries) we want to explore.
 
 ```Python
 def main():
