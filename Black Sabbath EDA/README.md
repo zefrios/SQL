@@ -1,4 +1,5 @@
-First, the API call needs to be made so that we get the right information. Here is what said code would look like:
+# 1. API Request
+First, the API call needs to be made so that we get the right information. The program sends a get request for artist name, track name, track popularity index, track id, and audio features.
 
 ```Python
 import requests
@@ -81,7 +82,7 @@ def get_tracks_audio_feats(access_token, track_id):
     }
 ```
 
-Then, we create a main() function that calls our previously stated fucntions:
+Then, we create a main() function that calls our previously stated fucntions that sets Black Sabbath as the artist name. The markets (countries) we want to explore are specified in the request.
 
 ```Python
 def main():
@@ -125,10 +126,18 @@ df_spotify_tracks.head(10)
 ```
 ![SQL_1](https://github.com/zefrios/SQL/assets/83305620/991c1711-6c82-426f-8a31-a09aeccf06b9)
 
+Once the data is correctly extracted and placed into a dataframe, it is transferred to a SQL table for further analysis.
 
+```Python
+engine = create_engine('sqlite:///spotify_track_info.db')
 
+df_spotify_tracks.to_sql(name='spotify_track_info', con=engine, if_exists='replace', index=False)
+print("Data stored in the 'spotify_track_info' table.")
+```
+With this the Python part of the project is concluded and we can proceed to querying the data from SQL to answer some business questions.
+***
 
-
+# 2. SQL Queries
 
 ## 1. How many distinct tracks are there in the dataset?
 
