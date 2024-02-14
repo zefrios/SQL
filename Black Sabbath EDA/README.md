@@ -25,3 +25,6 @@ FROM spotify_track_info
 | --- | --- | --- | --- | --- | --- |
 | 0.23|0.39|4.6|0.54|-13.51|123.45
 
+## 3. What is the average and median popularity of the tracks?
+
+## 4. What is the average and median popularity of the tracks, per country?
