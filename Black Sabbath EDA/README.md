@@ -172,7 +172,7 @@ Since mySQL doesn't really have a function to calculate the median of a column d
 ```SQL
 SET @row_index = -1;
 
-SELECT AVG(subq.popularity) as median_popularity
+SELECT ROUND(AVG(subq.popularity), 2) as median_popularity
 FROM (
     SELECT 
       @row_index := @row_index + 1 AS row_index, 
@@ -185,11 +185,11 @@ FROM (
 ```
 | median_popularity |
 | --- |
-| 65.0000 |
+| 65.00 |
 
 ### Average
 ```SQL
-SELECT AVG(POPULARITY)
+SELECT ROUND(AVG(popularity), 2) AS avg_popularity
 FROM spotify_track_info
 ```
 |avg_popularity|
