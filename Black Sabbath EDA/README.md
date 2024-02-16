@@ -233,3 +233,13 @@ GROUP BY market
 | MX | 67.70 |
 | US | 62.60 |
 
+## 5. How many tracks have danceability and energy above the dataset's average?
+```SQL
+SELECT COUNT(*) AS above_than_average
+FROM df_spotify_tracks
+WHERE danceability > (SELECT AVG(danceability) FROM df_spotify_tracks)
+AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
+```
+| above_than_average |
+| -- |
+| 14 |
