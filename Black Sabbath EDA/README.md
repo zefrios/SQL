@@ -192,5 +192,8 @@ FROM (
 SELECT AVG(POPULARITY)
 FROM spotify_track_info
 ```
+|avg_popularity|
+| --- |
+|66.14 
 
 ## 4. What is the average and median popularity of the tracks, per country?
