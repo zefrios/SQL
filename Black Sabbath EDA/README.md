@@ -198,17 +198,38 @@ FROM spotify_track_info
 
 ## 4. What is the average and median popularity of the tracks, per country?
 ### Median
-Since the process to calculate the median can be simplified by using the MariaDB mySQL system, it should be noted that all the answers from this point on are obtained through that variation.
+Since the process to calculate the median can be simplified by using the *MariaDB* mySQL system, it should be noted that all the answers from this point on are obtained through that variation.
 ```SQL
-SELECT DISTINCT market,
-       MEDIAN(popularity) OVER(PARTITION BY market) AS median_popularity
+SELECT DISTINCT
+market,
+MEDIAN(popularity) OVER(PARTITION BY market) AS median_popularity
 FROM df_spotify_tracks
 ```
+| market | median_popularity |
+| -- | -- |
+| CA | 60 |
+| DE | 66 |
+| FR | 66 |
+| GB | 66 |
+| JP | 66 |
+| MX | 66 |
+| US | 60 |
+
 ### Average
 ```SQL
 SELECT
-    market,
-    ROUND(AVG(popularity), 2) AS avg_popularity
+market,
+ROUND(AVG(popularity), 2) AS avg_popularity
 FROM df_spotify_tracks
-GROUP BY MARKET
+GROUP BY market
 ```
+| market | avg_popularity |
+| -- | -- |
+| CA | 62.60 |
+| DE | 67.70 |
+| FR | 67.70 |
+| GB | 67.70 |
+| JP | 67.70 |
+| MX | 67.70 |
+| US | 62.60 |
+
