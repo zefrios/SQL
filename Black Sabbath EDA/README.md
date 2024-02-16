@@ -134,7 +134,7 @@ engine = create_engine('sqlite:///spotify_track_info.db')
 df_spotify_tracks.to_sql(name='spotify_track_info', con=engine, if_exists='replace', index=False)
 print("Data stored in the 'spotify_track_info' table.")
 ```
-With this, the Python part of the project is concluded and we can proceed to querying the data from SQL to answer some business questions.
+With this, the Python part of the project is concluded and we can proceed to querying the data from SQL to answer some exploratory questions.
 ***
 
 # 2. SQL Queries
