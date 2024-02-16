@@ -197,3 +197,19 @@ FROM spotify_track_info
 |66.14 
 
 ## 4. What is the average and median popularity of the tracks, per country?
+### Median
+```SQL
+SELECT DISTINCT
+    market,
+    MEDIAN(popularity) OVER(PARTITION BY market) AS median_popularity
+FROM 
+    df_spotify_tracks
+```
+### Average
+```SQL
+SELECT
+    market,
+    ROUND(AVG(popularity), 2) AS avg_popularity
+FROM df_spotify_tracks
+GROUP BY MARKET
+```
