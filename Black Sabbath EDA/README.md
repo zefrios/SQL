@@ -167,5 +167,30 @@ FROM spotify_track_info
 | 0.23|0.39|4.6|0.54|-13.51|123.45
 
 ## 3. What is the average and median popularity of the tracks?
+### Median
+Since mySQL doesn't really have a function to calculate the median of a column directly, alternative routes which involve session variables and subqueries are necessary:
+```SQL
+SET @row_index = -1;
+
+SELECT AVG(subq.popularity) as median_popularity
+FROM (
+    SELECT 
+      @row_index := @row_index + 1 AS row_index, 
+      popularity
+    FROM spotify_track_info
+    ORDER BY popularity
+  ) AS subq
+  WHERE subq.row_index 
+  IN (FLOOR(@row_index / 2) , CEIL(@row_index / 2));
+```
+| median_popularity |
+| --- |
+| 65.0000 |
+
+### Average
+```SQL
+SELECT AVG(POPULARITY)
+FROM spotify_track_info
+```
 
 ## 4. What is the average and median popularity of the tracks, per country?
