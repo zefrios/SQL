@@ -166,7 +166,45 @@ FROM spotify_track_info
 | --- | --- | --- | --- | --- | --- |
 | 0.23|0.39|4.6|0.54|-13.51|123.45
 
-## 3. What is the average and median popularity of the tracks?
+## 3. What are the most popular songs in each country?
+```SQL
+SELECT track_name, market, popularity,
+DENSE_RANK() OVER (ORDER BY popularity DESC) AS popularity_rank
+FROM df_spotify_tracks
+ORDER BY popularity DESC
+```
+| track_name | market | popularity | popularity_rank |
+| -- | -- | -- | -- |
+| Paranoid (2009 - Remaster) | DE | 84 | 1 |
+| Paranoid (2009 - Remaster) | FR | 84 | 1 |
+| Paranoid (2009 - Remaster) | GB | 84 | 1 |
+| Paranoid (2009 - Remaster) | JP | 84 | 1 |
+| Paranoid (2009 - Remaster) | MX | 84 | 1 |
+| Paranoid - 2012 - Remaster | CA | 77 | 2 |
+| Paranoid - 2012 - Remaster | US | 77 | 2 |
+| Iron Man (2009 - Remaster) | DE | 75 | 3 |
+| Iron Man (2009 - Remaster) | FR | 75 | 3 |
+| Iron Man (2009 - Remaster) | GB | 75 | 3 |
+| Iron Man (2009 - Remaster) | JP | 75 | 3 |
+| Iron Man (2009 - Remaster) | MX | 75 | 3 |
+| War Pigs (2009 - Remaster) | DE | 72 | 4 |
+| War Pigs (2009 - Remaster) | FR | 72 | 4 |
+| War Pigs (2009 - Remaster) | GB | 72 | 4 |
+| War Pigs (2009 - Remaster) | JP | 72 | 4 |
+| War Pigs (2009 - Remaster) | MX | 72 | 4 |
+| Iron Man - 2012 - Remaster | CA | 69 | 5 |
+| Iron Man - 2012 - Remaster | US | 69 | 5 |
+| War Pigs / Luke's Wall - 2012 - Remaster | CA | 68 | 6 |
+| N.I.B. (2009 - Remaster) | DE | 68 | 6 |
+| N.I.B. (2009 - Remaster) | FR | 68 | 6 |
+| N.I.B. (2009 - Remaster) | GB | 68 | 6 |
+| N.I.B. (2009 - Remaster) | JP | 68 | 6 |
+| N.I.B. (2009 - Remaster) | MX | 68 | 6 |
+| ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+
+**It is interesting to see that most countries in the dataset have the same popularity index for these tracks, except the US and CA. It could be due to Spotify's database being more granular in US, CA and having having the rest of the countries aggregated?**
+
+## 4. What is the average and median popularity of the tracks?
 ### Median
 Since mySQL doesn't really have a function to calculate the median of a column directly, alternative routes which involve session variables and subqueries are necessary:
 ```SQL
@@ -196,7 +234,7 @@ FROM spotify_track_info
 | --- |
 |66.14 
 
-## 4. What is the average and median popularity of the tracks, per country?
+## 5. What is the average and median popularity of the tracks, per country?
 ### Median
 Since the process to calculate the median can be simplified by using the *MariaDB* mySQL system, it should be noted that all the answers from this point on are obtained through that variation.
 ```SQL
@@ -233,7 +271,7 @@ GROUP BY market
 | MX | 67.70 |
 | US | 62.60 |
 
-## 5. How many tracks have danceability and energy above the dataset's average?
+## 6. How many tracks have danceability and energy above the dataset's average?
 ```SQL
 SELECT COUNT(*) AS above_than_average
 FROM df_spotify_tracks
@@ -244,7 +282,7 @@ AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
 | -- |
 | 14 |
 
-### 5.1 Please display these tracks
+### 6.1 Please display these tracks
 ```SQL
 SELECT track_name, market, popularity
 FROM df_spotify_tracks
@@ -270,13 +308,14 @@ AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
 | N.I.B. | US | 60 |
 
 
-### 5.2 Are they also the loudest?
+### 6.2 Are they also the loudest?
 ```SQL
 SELECT DISTINCT
     track_name, 
     loudness,
     DENSE_RANK() OVER (ORDER BY loudness DESC) AS loudness_rank
 FROM df_spotify_tracks
+LIMIT 10
 ```
 | track_name | loudness | loudness_rank |
 | -- | -- | -- |
@@ -290,15 +329,5 @@ FROM df_spotify_tracks
 | War Pigs (2009 - Remaster) | -9.729 | 8 |
 | N.I.B. | -10.586 | 9 |
 | Iron Man - 2012 - Remaster | -10.875 | 10 |
-| Children of the Grave (2009 - Remaster) | -11.384 | 11 |
-| Paranoid - 2012 - Remaster | -12.051 | 12 |
-| Sweet Leaf - 2014 Remaster | -12.285 | 13 |
-| War Pigs / Luke's Wall - 2012 - Remaster | -12.363 | 14 |
-| Children of the Grave - 2014 Remaster | -13.928 | 15 |
-| Heaven and Hell | -16.343 | 16 |
-| Planet Caravan (2009 - Remaster) | -22.399 | 17 |
-| Orchid (2009 - Remaster) | -25.82 | 18 |
-| Planet Caravan - 2012 - Remaster | -28.603 | 19 |
-| Orchid - 2014 Remaster | -28.814 | 20 |
 
-
+They are among the top 10 loudest Black Sabbath tracks as well
