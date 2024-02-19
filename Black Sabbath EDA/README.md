@@ -1,5 +1,5 @@
 # 1. Python API Request
-First, the API call needs to be made so that we get the right information. The program sends a get request for artist name, track name, track popularity index, track id, and audio features.
+First, the API call needs to be made so we get the right information. The program sends a get request for artist name, track name, track popularity index, track id, and audio features.
 
 ```Python
 import requests
