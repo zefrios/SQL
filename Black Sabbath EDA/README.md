@@ -243,3 +243,62 @@ AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
 | above_than_average |
 | -- |
 | 14 |
+
+### 5.1 Please display these tracks
+```SQL
+SELECT track_name, market, popularity
+FROM df_spotify_tracks
+WHERE danceability > (SELECT AVG(danceability) FROM df_spotify_tracks)
+AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
+```
+
+| track_name | market | popularity |
+| -- | -- | -- |
+| Paranoid - 2012 - Remaster | CA | 77 |
+| N.I.B. | CA | 60 |
+| Paranoid (2009 - Remaster) | DE | 84 |
+| N.I.B. (2009 - Remaster) | DE | 68 |
+| Paranoid (2009 - Remaster) | FR | 84 |
+| N.I.B. (2009 - Remaster) | FR | 68 |
+| Paranoid (2009 - Remaster) | GB | 84 |
+| N.I.B. (2009 - Remaster) | GB | 68 |
+| Paranoid (2009 - Remaster) | JP | 84 |
+| N.I.B. (2009 - Remaster) | JP | 68 |
+| Paranoid (2009 - Remaster) | MX | 84 |
+| N.I.B. (2009 - Remaster) | MX | 68 |
+| Paranoid - 2012 - Remaster | US | 77 |
+| N.I.B. | US | 60 |
+
+
+### 5.2 Are they also the loudest?
+```SQL
+SELECT DISTINCT
+    track_name, 
+    loudness,
+    DENSE_RANK() OVER (ORDER BY loudness DESC) AS loudness_rank
+FROM df_spotify_tracks
+```
+| track_name | loudness | loudness_rank |
+| -- | -- | -- |
+| Sweet Leaf (2009 - Remaster) | -8.101 | 1 |
+| Sabbath Bloody Sabbath (2009 - Remaster) | -8.162 | 2 |
+| Heaven and Hell - 2008 Remaster | -8.465 | 3 |
+| Iron Man (2009 - Remaster) | -9.168 | 4 |
+| N.I.B. (2009 - Remaster) | -9.403 | 5 |
+| Sabbath Bloody Sabbath - 2014 Remaster | -9.643 | 6 |
+| Paranoid (2009 - Remaster) | -9.651 | 7 |
+| War Pigs (2009 - Remaster) | -9.729 | 8 |
+| N.I.B. | -10.586 | 9 |
+| Iron Man - 2012 - Remaster | -10.875 | 10 |
+| Children of the Grave (2009 - Remaster) | -11.384 | 11 |
+| Paranoid - 2012 - Remaster | -12.051 | 12 |
+| Sweet Leaf - 2014 Remaster | -12.285 | 13 |
+| War Pigs / Luke's Wall - 2012 - Remaster | -12.363 | 14 |
+| Children of the Grave - 2014 Remaster | -13.928 | 15 |
+| Heaven and Hell | -16.343 | 16 |
+| Planet Caravan (2009 - Remaster) | -22.399 | 17 |
+| Orchid (2009 - Remaster) | -25.82 | 18 |
+| Planet Caravan - 2012 - Remaster | -28.603 | 19 |
+| Orchid - 2014 Remaster | -28.814 | 20 |
+
+
