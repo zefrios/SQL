@@ -202,7 +202,8 @@ ORDER BY popularity DESC
 | N.I.B. (2009 - Remaster) | MX | 68 | 6 |
 | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
 
-It is interesting to see that most countries in the dataset have the same popularity index for these tracks, except the US and CA. It could be due to Spotify's database being more granular in US, CA, and having having the rest of the countries aggregated?
+It is interesting to see that most countries in the dataset have the same popularity value for some tracks, except the US and CA. The versions of the most popular songs also vary the most in these markets.
+Further insights on Spotify's data collection techniques would be great to understand better why these values are static across markets.
 
 ## 4. What is the average and median popularity of the tracks?
 ### Median
