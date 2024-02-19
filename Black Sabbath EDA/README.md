@@ -332,3 +332,26 @@ LIMIT 10
 | Iron Man - 2012 - Remaster | -10.875 | 10 |
 
 They are among the top 10 loudest Black Sabbath tracks as well
+
+## 7. How do the acoustic properties and popularity of Black Sabbath's tracks vary across different markets, and what does this variation suggest about the appeal of their music?
+```SQL
+SELECT market,
+ROUND(AVG(popularity), 2) AS avg_popularity,
+ROUND(AVG(danceability), 3) AS avg_danceability,
+ROUND(AVG(energy), 3) AS avg_energy,
+ROUND(AVG(loudness), 3) AS avg_loudness,
+ROUND(AVG(duration_ms)/60000, 3) AS avg_duration_mins,
+ROUND(AVG(tempo)) AS avg_tempo
+FROM df_spotify_tracks
+GROUP BY market
+ORDER BY avg_popularity DESC
+```
+| market | avg_popularity | avg_danceability | avg_energy | avg_loudness | avg_duration_mins | avg_tempo |
+| -- | -- | -- | -- | -- | -- | -- |
+| DE | 67.70 | 0.391 | 0.543 | -13.016 | 5.174 | 120 |
+| FR | 67.70 | 0.391 | 0.543 | -13.016 | 5.174 | 120 |
+| GB | 67.70 | 0.391 | 0.543 | -13.016 | 5.174 | 120 |
+| JP | 67.70 | 0.391 | 0.543 | -13.016 | 5.174 | 120 |
+| MX | 67.70 | 0.391 | 0.543 | -13.016 | 5.174 | 120 |
+| CA | 62.60 | 0.378 | 0.529 | -14.761 | 5.185 | 132 |
+| US | 62.60 | 0.378 | 0.529 | -14.761 | 5.185 | 132 |
