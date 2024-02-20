@@ -310,7 +310,7 @@ AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
 
 It is worth noting that the popularity values are identical across all markets for the same songs. After some [research](https://community.spotify.com/t5/Spotify-for-Developers/question-about-the-popularity-score-of-an-artist/m-p/5795193), it was found that the popularity metrics are global aggregates and therefore will be the same for all markets. 
 
-#### 6.1.1 Are the audio characteristics also global aggregates?
+#### 6.1.1 Are the tracks' audio features also global aggregates?
 
 ```SQL
 SELECT market,
