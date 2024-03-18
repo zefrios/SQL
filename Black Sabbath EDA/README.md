@@ -370,3 +370,45 @@ ORDER BY loudness_rank ASC
 | Paranoid - 2012 - Remaster | -12.051 | 13 |
 
 They are among the top 20 loudest Black Sabbath tracks as well.
+
+### 6.3 Are they also amongst the most popular Black Sabbath tracks?
+
+```SQL
+WITH LoudestTracks AS(
+    SELECT DISTINCT
+    track_name, 
+    loudness,
+    popularity,
+    danceability,
+    energy
+FROM df_spotify_tracks
+),
+
+AboveAvgDE AS(
+    SELECT track_name
+FROM df_spotify_tracks
+WHERE danceability > (SELECT AVG(danceability) FROM df_spotify_tracks)
+AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
+)
+
+SELECT DISTINCT LT.track_name,
+    LT.popularity,
+    RANK() OVER (ORDER BY LT.popularity DESC) as popularity_rank
+FROM LoudestTracks AS LT
+INNER JOIN AboveAvgDE AS AA ON LT.track_name = AA.track_name
+ORDER BY popularity_rank ASC
+```
+
+| track_name | popularity | popularity_rank |
+| -- | -- | -- |
+| Paranoid (2009 - Remaster) | 84 | 1 |
+| Paranoid - 2012 - Remaster | 77 | 6 |
+| N.I.B. (2009 - Remaster) | 68 | 8 |
+| N.I.B. | 60 | 13 |
+
+Yes, they are.
+
+# Conclusions
+In general, the most important insights we got from accessing the API were: 
+1. Although we are given the option to get the data from different markets, track audio features and track popularity indexes are global aggregates, and should only be included in analysis as global track information. Artist popularity indexes are global metrics as well. Market segmentation could be more relevant for extracting data about playlists.
+2. There seem to be hints of a highly positive correlation between loudness, popularity and more 'eclectic' audio features like danceability and energy, on the tracks where these features are above the average.
