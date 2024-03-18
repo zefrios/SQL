@@ -336,26 +336,37 @@ ORDER BY avg_popularity DESC
 
 Since the averages are the same for all countries, it is safe to assume that the audio features are global aggregates as well.
 
-### 6.2 Are these tracks also the loudest?
+### 6.2 Are these tracks with an above average danceability, energy also among the loudest?
 ```SQL
-SELECT DISTINCT
+WITH LoudestTracks AS(
+    SELECT DISTINCT
     track_name, 
     loudness,
-    DENSE_RANK() OVER (ORDER BY loudness DESC) AS loudness_rank
+    popularity,
+    danceability,
+    energy
 FROM df_spotify_tracks
-LIMIT 10
+),
+
+AboveAvgDE AS(
+    SELECT track_name
+FROM df_spotify_tracks
+WHERE danceability > (SELECT AVG(danceability) FROM df_spotify_tracks)
+AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
+)
+
+SELECT DISTINCT LT.track_name,
+    LT.loudness,
+    RANK() OVER (ORDER BY LT.loudness DESC) as loudness_rank
+FROM LoudestTracks AS LT
+INNER JOIN AboveAvgDE AS AA ON LT.track_name = AA.track_name
+ORDER BY loudness_rank ASC
 ```
 | track_name | loudness | loudness_rank |
 | -- | -- | -- |
-| Sweet Leaf (2009 - Remaster) | -8.101 | 1 |
-| Sabbath Bloody Sabbath (2009 - Remaster) | -8.162 | 2 |
-| Heaven and Hell - 2008 Remaster | -8.465 | 3 |
-| Iron Man (2009 - Remaster) | -9.168 | 4 |
-| **N.I.B. (2009 - Remaster)** | -9.403 | 5 |
-| Sabbath Bloody Sabbath - 2014 Remaster | -9.643 | 6 |
-| **Paranoid (2009 - Remaster)** | -9.651 | 7 |
-| War Pigs (2009 - Remaster) | -9.729 | 8 |
-| **N.I.B.** | -10.586 | 9 |
-| Iron Man - 2012 - Remaster | -10.875 | 10 |
+| N.I.B. (2009 - Remaster) | -9.403 | 1 |
+| Paranoid (2009 - Remaster) | -9.651 | 6 |
+| N.I.B. | -10.586 | 11 |
+| Paranoid - 2012 - Remaster | -12.051 | 13 |
 
-They are among the top 10 loudest Black Sabbath tracks as well
+They are among the top 20 loudest Black Sabbath tracks as well.
