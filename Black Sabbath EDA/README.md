@@ -139,7 +139,7 @@ print("Data stored in the 'spotify_track_info' table.")
 ```
 </details>
 
-With this, the Python part of the project is concluded and we can proceed to querying the data from SQL to answer some exploratory questions.
+With the dataset ready, we can proceed to querying the data from SQL to answer some exploratory questions.
 ***
 
 # 2. Exploring the dataset: SQL Queries
