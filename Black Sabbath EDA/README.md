@@ -143,12 +143,16 @@ With the dataset ready, we can proceed to querying the data from SQL to answer s
 ***
 
 # 2. Exploring the dataset: SQL Queries
-### Audio features were extracted to explore Spotify's measurements per track. To clarify what each of these are, here are the descriptions from their website:
+Audio features were extracted to explore Spotify's measurements per track. To clarify what each of these are, here are the descriptions from their website:
 
 - Acousticness: A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.
+  
 - Danceability: Describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.
+
 - Energy: Measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.
+  
 - Loudness: The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.
+  
 - Tempo: The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.
 
 ## 1. How many distinct tracks are there in the dataset?
@@ -284,6 +288,8 @@ GROUP BY market
 | MX | 67.70 |
 | US | 62.60 |
 
+It is worth noting that the popularity values are identical across all markets for the same songs. After some [research](https://community.spotify.com/t5/Spotify-for-Developers/question-about-the-popularity-score-of-an-artist/m-p/5795193), it was found that the popularity metrics are global aggregates and therefore will be the same for all markets. 
+
 ## 6. How many tracks have danceability and energy above the dataset's average?
 ```SQL
 SELECT COUNT(*) AS above_than_average
@@ -320,9 +326,7 @@ AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
 | Paranoid - 2012 - Remaster | US | 77 |
 | N.I.B. | US | 60 |
 
-It is worth noting that the popularity values are identical across all markets for the same songs. After some [research](https://community.spotify.com/t5/Spotify-for-Developers/question-about-the-popularity-score-of-an-artist/m-p/5795193), it was found that the popularity metrics are global aggregates and therefore will be the same for all markets. 
-
-#### 6.1.1 Are the tracks' audio features also global aggregates?
+## 7. Are audio features also global aggregates?
 
 ```SQL
 SELECT market,
@@ -348,7 +352,7 @@ ORDER BY avg_popularity DESC
 
 Since the averages are the same for all countries, it is safe to assume that the audio features are global aggregates as well.
 
-### 6.2 Are these tracks with an above average danceability, energy also among the loudest?
+## 8. Are tracks with an above average danceability, energy also among the loudest?
 ```SQL
 WITH LoudestTracks AS(
     SELECT DISTINCT
@@ -383,7 +387,7 @@ ORDER BY loudness_rank ASC
 
 They are among the top 20 loudest Black Sabbath tracks as well.
 
-### 6.3 Are they also amongst the most popular Black Sabbath tracks?
+## 9. Are they also amongst the most popular Black Sabbath tracks?
 
 ```SQL
 WITH LoudestTracks AS(
