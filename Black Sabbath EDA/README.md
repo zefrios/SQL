@@ -1,6 +1,9 @@
-# 1. Python API Request
-First, the API call needs to be made so we get the right information. The program sends a get request for artist name, track name, track popularity index, track id, and audio features.
+# 1. Creating the Dataset: API calls
+* First, the API call needs to be made so we get the right information. The Python program sends a *get* request for artist name, track name, track popularity index, track id, and audio features.
 
+<details>
+<summary>Click to see code</summary>
+    
 ```Python
 import requests
 import pandas as pd
@@ -81,9 +84,8 @@ def get_tracks_audio_feats(access_token, track_id):
         "valence": data['valence']
     }
 ```
-
-We unify the previous snippets through a main() function which sets *Black Sabbath* as the artist name and creates a list with the markets (countries) we want to explore.
-
+* We unify the previous snippets through a main() function which sets *Black Sabbath* as the artist name and creates a list with the markets (countries) we want to explore.
+  
 ```Python
 def main():
     artist_name = 'Black Sabbath'
@@ -118,15 +120,16 @@ def main():
     
     return df
 ```
+</details>
 
-To get an overwview of how the created dataset looks:
-```Python
-df_spotify_tracks = main()
-df_spotify_tracks.head(10)
-```
+This is an overwview of how the created dataset looks:
+
 ![SQL_1](https://github.com/zefrios/SQL/assets/83305620/991c1711-6c82-426f-8a31-a09aeccf06b9)
 
-Once the data is correctly extracted and placed into a dataframe, it is transferred to a SQL table for further analysis:
+* Once the data is correctly extracted and placed into a dataframe, it is transferred to a SQL table for further analysis:
+
+<details>
+<summary>Click to see code</summary>
 
 ```Python
 engine = create_engine('sqlite:///spotify_track_info.db')
@@ -134,10 +137,19 @@ engine = create_engine('sqlite:///spotify_track_info.db')
 df_spotify_tracks.to_sql(name='spotify_track_info', con=engine, if_exists='replace', index=False)
 print("Data stored in the 'spotify_track_info' table.")
 ```
+</details>
+
 With this, the Python part of the project is concluded and we can proceed to querying the data from SQL to answer some exploratory questions.
 ***
 
-# 2. SQL Queries
+# 2. Exploring the dataset: SQL Queries
+### Audio features were extracted to explore Spotify's measurements per track. To clarify what each of these are, here are the descriptions from their website:
+
+- Acousticness: A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.
+- Danceability: Describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.
+- Energy: Measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.
+- Loudness: The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.
+- Tempo: The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.
 
 ## 1. How many distinct tracks are there in the dataset?
 
