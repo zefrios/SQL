@@ -290,43 +290,7 @@ GROUP BY market
 
 It is worth noting that the popularity values are identical across all markets for the same songs. After some [research](https://community.spotify.com/t5/Spotify-for-Developers/question-about-the-popularity-score-of-an-artist/m-p/5795193), it was found that the popularity metrics are global aggregates and therefore will be the same for all markets. 
 
-## 6. How many tracks have danceability and energy above the dataset's average?
-```SQL
-SELECT COUNT(*) AS above_than_average
-FROM df_spotify_tracks
-WHERE danceability > (SELECT AVG(danceability) FROM df_spotify_tracks)
-AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
-```
-| above_than_average |
-| -- |
-| 14 |
-
-### 6.1 Please display these tracks
-```SQL
-SELECT track_name, market, popularity
-FROM df_spotify_tracks
-WHERE danceability > (SELECT AVG(danceability) FROM df_spotify_tracks)
-AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
-```
-
-| track_name | market | popularity |
-| -- | -- | -- |
-| Paranoid - 2012 - Remaster | CA | 77 |
-| N.I.B. | CA | 60 |
-| Paranoid (2009 - Remaster) | DE | 84 |
-| N.I.B. (2009 - Remaster) | DE | 68 |
-| Paranoid (2009 - Remaster) | FR | 84 |
-| N.I.B. (2009 - Remaster) | FR | 68 |
-| Paranoid (2009 - Remaster) | GB | 84 |
-| N.I.B. (2009 - Remaster) | GB | 68 |
-| Paranoid (2009 - Remaster) | JP | 84 |
-| N.I.B. (2009 - Remaster) | JP | 68 |
-| Paranoid (2009 - Remaster) | MX | 84 |
-| N.I.B. (2009 - Remaster) | MX | 68 |
-| Paranoid - 2012 - Remaster | US | 77 |
-| N.I.B. | US | 60 |
-
-## 7. Are audio features also global aggregates?
+## 6. Are audio features also global aggregates?
 
 ```SQL
 SELECT market,
@@ -351,6 +315,44 @@ ORDER BY avg_popularity DESC
 | US | 62.60 | 0.378 | 0.529 | -14.761 | 5.185 | 132 |
 
 Since the averages are the same for all countries, it is safe to assume that the audio features are global aggregates as well.
+
+
+## 7. How many tracks have danceability and energy above the dataset's average?
+```SQL
+SELECT COUNT(*) AS above_than_average
+FROM df_spotify_tracks
+WHERE danceability > (SELECT AVG(danceability) FROM df_spotify_tracks)
+AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
+```
+| above_than_average |
+| -- |
+| 14 |
+
+### 7.1 Please display these tracks
+```SQL
+SELECT track_name, market, popularity
+FROM df_spotify_tracks
+WHERE danceability > (SELECT AVG(danceability) FROM df_spotify_tracks)
+AND energy > (SELECT AVG(energy) FROM df_spotify_tracks)
+```
+
+| track_name | market | popularity |
+| -- | -- | -- |
+| Paranoid - 2012 - Remaster | CA | 77 |
+| N.I.B. | CA | 60 |
+| Paranoid (2009 - Remaster) | DE | 84 |
+| N.I.B. (2009 - Remaster) | DE | 68 |
+| Paranoid (2009 - Remaster) | FR | 84 |
+| N.I.B. (2009 - Remaster) | FR | 68 |
+| Paranoid (2009 - Remaster) | GB | 84 |
+| N.I.B. (2009 - Remaster) | GB | 68 |
+| Paranoid (2009 - Remaster) | JP | 84 |
+| N.I.B. (2009 - Remaster) | JP | 68 |
+| Paranoid (2009 - Remaster) | MX | 84 |
+| N.I.B. (2009 - Remaster) | MX | 68 |
+| Paranoid - 2012 - Remaster | US | 77 |
+| N.I.B. | US | 60 |
+
 
 ## 8. Are tracks with an above average danceability, energy also among the loudest?
 ```SQL
